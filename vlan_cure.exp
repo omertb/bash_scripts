@@ -1,0 +1,38 @@
+#!/usr/bin/expect
+#
+#
+## define the arguments that expect script can take
+set CTRLIP [lindex $argv 0]
+#set APNAME [lindex $argv 1]
+#
+
+## Build an array from the Vlan Disable AP list file
+set f [open VLAN_DISABLED_$CTRLIP.txt]
+set APs [split [read $f] "\n"]
+close $f
+#
+
+#
+eval spawn "ssh username@$CTRLIP"
+#
+#expect "Are you sure you want to continue connecting (yes/no)?"
+#send "yes\n"
+#
+#
+expect "\n"
+send "\n"
+expect "User:"
+send "username\n"
+expect "Password:"
+send "PASSWORD\n"
+#
+# enable the vlan feature for each AP in APs array
+foreach APNAME $APs {
+    expect "(Cisco Controller) >"
+    send "config ap disable $APNAME\n"
+    expect "(Cisco Controller) >"
+    send "config ap flexconnect vlan enable $APNAME\n"
+    expect "(Cisco Controller) >"
+    send "config ap enable $APNAME\n"
+    }
+#

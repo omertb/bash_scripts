@@ -1,0 +1,21 @@
+#!/usr/bin/expect
+set CTRLIP [lindex $argv 0]
+eval spawn "ssh username@$CTRLIP"
+
+## required lines for the first time connection
+# expect "Are you sure you want to continue connecting (yes/no)?"
+# send "yes\n"
+
+expect "\n"
+send "\n"
+expect "User:"
+send "username\n"
+expect "Password:"
+send "PASSWORD\n"
+expect "(Cisco Controller) >"
+send "config paging disable\n"
+expect "(Cisco Controller) >"
+send "show ap uptime\n"
+expect "(Cisco Controller) >"
+send "config paging enable\n"
+expect "(Cisco Controller) >"

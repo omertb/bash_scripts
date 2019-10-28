@@ -1,0 +1,36 @@
+#!/usr/bin/expect
+#
+# define the arguments that expect script can take
+set CTRLIP [lindex $argv 0]
+
+# set APNAME [lindex $argv 1]
+#
+
+## open and read the file named AP_LIST_$CTRLIP.txt which includes AP names written line by line
+## get these AP names and save to an array named APs
+set f [open "AP_LIST_$CTRLIP.txt"]
+set APs [split [read $f] "\n"]
+close $f
+#
+
+eval spawn "ssh username@$CTRLIP"
+
+## required lines for the first time connection
+#expect "Are you sure you want to continue connecting (yes/no)?"
+#send "yes\n"
+
+expect "\n"
+send "\n"
+expect "User:"
+send "username\n"
+expect "Password:"
+send "PASSWORD\n"
+expect "(Cisco Controller) >"
+send "config paging disable\n"
+foreach APNAME $APs {
+    expect "(Cisco Controller) >"
+    send "show ap config general $APNAME\n"
+    }
+expect "(Cisco Controller) >"
+send "config paging enable\n"
+expect "(Cisco Controller) >"

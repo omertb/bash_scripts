@@ -7,6 +7,7 @@ SENDMAIL="/usr/bin/mail -s"
 #if ps ax | grep -v grep | grep $SERVICE > /dev/null
 $DHCPRUN 2> /root/dhcp_output.txt
 # once isc-dhcp service is restarted, if there is any fault in config file, service will fail and gives output about faulty lines.
+
 if cat /root/dhcp_output.txt | grep ERROR > /dev/null
 then
     echo "dhcp is down" > /dev/null

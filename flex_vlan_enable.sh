@@ -1,5 +1,5 @@
 #!/bin/bash
-# this script is built with the purpose of making a roundabout to a bug in Cisco WLC; that is,
+# this script is built with the purpose of making a workaround to a bug in Cisco WLC; that is,
 # the AP loses its vlan enable configuration if there is a power outage.
 cd /home/monitor/ap_flex/
 DATE=`date +%Y%m%d%H%M`
